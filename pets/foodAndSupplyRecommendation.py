@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from openai import OpenAI
+from genai import GenerativeModel
 from PIL import Image
 
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
@@ -100,24 +101,45 @@ def show_feature():
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
-        # Simulate model interaction 
-        model_response = """
-          You are an animal food analyzer.
-          You will first analyze the food inside the uploaded image.
-          Then analyze whether the specific animal can eat the food or not.
-          You will list all the food in the image.
-          You will only analyze food related image. Else, tell the user that "please upload only food images".
-          The output will be in the format as shown below:
-          Food in the image:
-          <food>
+        model = GenerativeModel(
+            "gemini-1.5-flash",
+            system_instruction="""
+            You are an animal food analyzer.
+            You will first analyze the food inside the uploaded image.
+            Then analyze whether the specific animal can eat the food or not.
+            You will list all the food in the image.
+            You will only analyze food related image. Else, tell the user that "please upload only food images".
+            The output will be in the format as shown below:
+            Food in the image:
+            <food>
 
-          Analysis:
-          <analysis of the can and cannot eat>
-          """
+            Analysis:
+            <analysis of the edible and non-edible food>
+            """
+        )
 
-        #Display the model's response
-        st.subheader("Analysis Result")
-        st.text(model_response)
+        # Streamlit UI setup
+        st.title("Animal Food Analyzer")
+        st.write("Upload a food image and provide animal details for analysis.")
+
+
+        # Image upload
+        uploaded_image = st.file_uploader("Upload a Food Image", type=["jpg", "jpeg", "png"])
+
+        # Process the image and display results when button is clicked
+        if uploaded_image and st.button("Analyze"):
+            try:
+                # Generate content using the AI model
+                response = model.generate_content([
+                    f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.",
+                    uploaded_image.read()
+                ])
+
+                # Display the response
+                st.subheader("Analysis Result")
+                st.text(response)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
 
 
     # Streamlit app interface
