@@ -34,9 +34,7 @@ def show_feature():
 
         return response.choices[0].message.content
 
-    def foodRec():
-        st.title("Pet Care Assistant")
-
+    def petDetails():
         # Collect user input for pet type
         pet_type = st.selectbox("Select Pet Type", options=["Dog", "Cat", "Bird", "Other"])
         if pet_type == "Other":
@@ -55,6 +53,12 @@ def show_feature():
 
         # Collect user input for health condition
         health_condition = st.text_area("Describe any Health Conditions", value="None")
+        
+        return pet_type, pet_age, pet_breed, pet_mood, health_condition
+        
+    
+    def foodRec(pet_type, pet_age, pet_breed, pet_mood, health_condition):
+        st.title("Pet Care Assistant")
 
         # Button to trigger recommendation
         if st.button("Generate Food Recommendation"):
@@ -91,7 +95,8 @@ def show_feature():
     st.title("Animal Dietary Consultant")
     st.write("Enter your animal-related food or health question below:")
 
-    foodRec()
+    pet_type, pet_age, pet_breed, pet_mood, health_condition = petDetails()
+    foodRec(pet_type, pet_age, pet_breed, pet_mood, health_condition)
     # File uploader for images
     uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
 
@@ -99,7 +104,7 @@ def show_feature():
         st.warning("Please upload an image to proceed.")
         return
     else:
-        food_analyzing(pet_type, pet_age, pet_breed, pet_mood, health_condition):
+        food_analyzing(pet_type, pet_age, pet_breed, pet_mood, health_condition)
     # Input from the user
     user_input = st.text_input("Ask your question about the animal:")
 
