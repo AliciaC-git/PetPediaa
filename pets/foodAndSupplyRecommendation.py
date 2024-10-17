@@ -104,15 +104,15 @@ def show_feature():
         else:
             st.warning("Please enter a valid question.")
 
+    # File uploader for images
+    uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
+
+    if uploaded_file is None:
+        st.warning("Please upload an image to proceed.")
+        return
+
     def food_analyzing(Type, Age, Breed, Mood, Health_Condition):
         st.title("Animal Food Analyzer")
-    
-        # File uploader for images
-        uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
-    
-        if uploaded_file is None:
-            st.warning("Please upload an image to proceed.")
-            return
     
         # Open and display the uploaded image
         image = Image.open(uploaded_file)
