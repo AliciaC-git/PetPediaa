@@ -118,16 +118,26 @@ def show_feature():
             """
         )
 
+        image_content = uploaded_file.read()
         # Process the image and display results when button is clicked
-        if uploaded_file and st.button("Analyze"):
-            # Generate content using the AI model
-            response = model.generate_content([
-                f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.", uploaded_file.read()
-            ])
+            if uploaded_file:
+                image = Image.open(uploaded_file)
+                st.image(image, caption="Uploaded Image", use_column_width=True)
 
-            # Display the response
-            st.subheader("Analysis Result")
-            st.write(response.text)
+                if st.button("Analyze"):
+                    try:
+                        image_content = uploaded_file.read()  # Read the image once
+                        response = model.generate_content([
+                            f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.",
+                            image_content  # Use the binary content
+                        ])
+                        # Display the result correctly
+                        st.subheader("Analysis Result")
+                        st.write(response[0]['message']['content'])  # Access the response content
+
+                    except Exception as e:
+                        st.error(f"An error occurred: {str(e)}")
+
 
 
     # Streamlit app interface
