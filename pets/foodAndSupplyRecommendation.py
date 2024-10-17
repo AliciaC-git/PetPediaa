@@ -88,27 +88,30 @@ def show_feature():
                 st.error("Please fill in all the required fields!")
 
     def foodAnalyzer(pet_type, pet_age, pet_breed, pet_mood,health_condition):
-            uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
+                # File uploader for images
+                uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
 
-            if uploaded_file is not None:
-                # Open and display the image
+                if uploaded_file is None:
+                    st.warning("Please upload an image to proceed.")
+                    return
+
+                # Open and display the uploaded image
                 image = Image.open(uploaded_file)
                 st.image(image, caption="Uploaded Image", use_column_width=True)
 
-                # Simulate the AI Model Response (Replace this with real API call if needed)
+                # Simulate model interaction (Placeholder for actual model call)
                 model_response = f"""
-                Food in the image:
-                Example Food Item 
+                Food in the image: <food>
 
-                Analysis:
-                A {Age}-year-old {Mood} {Breed} {Type} with {Health_Condition} can eat or can not eat <the analysis>.
-                Please consult a veterinarian for more details.
+                Analysis: 
+                Can a {Age} year old, {Mood} {Breed} {Type} with {Health_Condition} eat it? 
+                <Model's analysis would be here.>
                 """
 
-                st.write("Analysis:")
+                # Display the model's response
+                st.subheader("Analysis Result")
                 st.text(model_response)
-            else:
-                st.warning("Please upload a food-related image.")
+
 
     # Streamlit app interface
     st.title("Animal Dietary Consultant")
