@@ -118,21 +118,13 @@ def show_feature():
             """
         )
 
-        # Streamlit UI setup
-        st.title("Animal Food Analyzer")
-        st.write("Upload a food image and provide animal details for analysis.")
-
-
-        # Image upload
-        uploaded_image = st.file_uploader("Upload a Food Image", type=["jpg", "jpeg", "png"])
-
         # Process the image and display results when button is clicked
-        if uploaded_image and st.button("Analyze"):
+        if uploaded_file and st.button("Analyze"):
             try:
                 # Generate content using the AI model
                 response = model.generate_content([
                     f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.",
-                    uploaded_image.read()
+                    uploaded_file.read()
                 ])
 
                 # Display the response
