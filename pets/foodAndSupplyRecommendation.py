@@ -108,17 +108,18 @@ def show_feature():
                     You will first analyze the food inside the uploaded image.
                     Then analyze whether the specific animal can eat the food or not.
                     You will list all the food in the image.
+                    Provide detailed analysis.
                     You will only analyze food related image. Else, tell the user that "please upload only food images".
                     The output will be in the format as shown below:
                     Food in the image:
                     <food>
 
                     Analysis:
-                    <analysis of the edible and non-edible food>
+                    <Edible food>
+                    <Non-edible food>
                     """
                 )
                 response = model.generate_content([f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.", image])
-                st.image(image)
                 st.write(response.text)
 
 
