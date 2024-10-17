@@ -101,7 +101,7 @@ def show_feature():
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
-        model = GenerativeModel(
+        model = genai.GenerativeModel(
             "gemini-1.5-flash",
             system_instruction="""
             You are an animal food analyzer.
