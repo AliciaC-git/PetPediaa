@@ -97,7 +97,7 @@ def show_feature():
         uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
 
         if uploaded_file is not None:
-            image = np.array(PIL.Image.open(uploaded_file))
+            image = PIL.Image.open(uploaded_file)
             st.image(image, caption="Uploaded Image")
 
             if st.button("Analyze Food"):
