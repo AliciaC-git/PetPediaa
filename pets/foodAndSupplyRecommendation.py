@@ -1,7 +1,7 @@
 import streamlit as st
 import os
+import google.generativeai as genai
 from openai import OpenAI
-from genai import GenerativeModel
 from PIL import Image
 
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
