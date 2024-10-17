@@ -109,12 +109,15 @@ def show_feature():
                     Then analyze whether the specific animal can eat the food or not.
                     You will list all the food in the image.
                     Provide detailed analysis.
+                    Bold the 'Food in teh image', and 'Analysis'
                     You will only analyze food related image. Else, tell the user that "please upload only food images".
                     The output will be in the format as shown below:
                     Food in the image:
+                    
                     <food>
 
                     Analysis:
+                    
                     <Edible food>
                     <Non-edible food>
                     """
