@@ -1,19 +1,23 @@
 import streamlit as st
 import os
 from openai import OpenAI
-from PIL import Image
 
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
+
+
 def show_feature():
+
     st.subheader("Food and Supply Recommendations")
-    def generate_food_recommendation(pet_type, pet_age, pet_breed, pet_mood, health_condition):
+
+    def generate_food_recommendation(pet_type, pet_age, pet_breed, pet_mood,
+                                     health_condition):
         system_prompt = f"""
         Based on the following pet details:
         - Type: {pet_type}
         - Age: {pet_age}
         - Breed: {pet_breed}
         - Mood: {pet_mood}
-        - Health Conditions: {health_condition}
+        - Health Condition: {health_condition}
 
         Suggest appropriate food and supplies (exclude toys) for this pet:
         """
@@ -22,48 +26,61 @@ def show_feature():
         Pet Type: {pet_type}, Age: {pet_age}, Breed: {pet_breed}, Mood: {pet_mood}, Health Condition: {health_condition}
         """
 
-        response = client.chat.completions.create(
-            model="gpt-4o",  
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_input}
-            ],
-            temperature=1.0,
-            max_tokens=200  
-        )
+        response = client.chat.completions.create(model="gpt-4o",
+                                                  messages=[{
+                                                      "role":
+                                                      "system",
+                                                      "content":
+                                                      system_prompt
+                                                  }, {
+                                                      "role":
+                                                      "user",
+                                                      "content":
+                                                      user_input
+                                                  }],
+                                                  temperature=1.0,
+                                                  max_tokens=200)
 
         return response.choices[0].message.content
 
-    def petDetails():
+    def foodRec():
+        st.title("Pet Care Assistant")
+
         # Collect user input for pet type
-        pet_type = st.selectbox("Select Pet Type", options=["Dog", "Cat", "Bird", "Other"])
+        pet_type = st.selectbox("Select Pet Type",
+                                options=["Dog", "Cat", "Bird", "Other"])
         if pet_type == "Other":
             pet_type = st.text_input("Please specify the pet type")
 
         # Collect user input for pet age
-        pet_age = st.number_input("Enter Pet Age (in years)", min_value=0, max_value=30, value=1, step=1)
+        pet_age = st.number_input("Enter Pet Age (in years)",
+                                  min_value=0,
+                                  max_value=50,
+                                  value=1,
+                                  step=1)
 
         # Collect user input for pet breed
         pet_breed = st.text_input("Enter Pet Breed")
 
         # Collect user input for pet mood
-        pet_mood = st.selectbox("Select Pet Mood", options=["Happy", "Anxious", "Aggressive", "Calm", "Neutral", "Other"])
+        pet_mood = st.selectbox("Select Pet Mood",
+                                options=[
+                                    "Happy", "Anxious", "Aggressive", "Calm",
+                                    "Neutral", "Other"
+                                ])
         if pet_mood == "Other":
             pet_mood = st.text_input("Please specify the pet mood")
 
         # Collect user input for health condition
-        health_condition = st.text_area("Describe any Health Conditions", value="None")
-        
-        return pet_type, pet_age, pet_breed, pet_mood, health_condition
-        
-    
-    def foodRec(pet_type, pet_age, pet_breed, pet_mood, health_condition):
-        st.title("Pet Care Assistant")
+        health_condition = st.text_area("Describe any Health Conditions",
+                                        value="None")
+
 
         # Button to trigger recommendation
         if st.button("Generate Food Recommendation"):
             if pet_type and pet_breed and pet_age and pet_mood:
-                recommendation = generate_food_recommendation(pet_type, pet_age, pet_breed, pet_mood, health_condition)
+                recommendation = generate_food_recommendation(
+                    pet_type, pet_age, pet_breed, pet_mood, health_condition)
                 st.subheader("Recommended Food and Supplies:")
                 st.write(recommendation)
             else:
@@ -80,60 +97,25 @@ def show_feature():
         - Only answer questions related to animal food, diet, or health.
         """
 
-        response = openai.chat.completions.create(
-            model='gpt-4-turbo',
-            messages=[
-                {'role': 'system', 'content': foodSupply_prompt},
-                {'role': 'user', 'content': animal}
-            ],
-            temperature=0.9,
-            max_tokens=1000
-        )
+        response = openai.chat.completions.create(model='gpt-4-turbo',
+                                                  messages=[{
+                                                      'role':
+                                                      'system',
+                                                      'content':
+                                                      foodSupply_prompt
+                                                  }, {
+                                                      'role': 'user',
+                                                      'content': animal
+                                                  }],
+                                                  temperature=0.9,
+                                                  max_tokens=1000)
         return response.choices[0].message.content
-
-    def food_analyzing(pet_type, pet_age, pet_breed, pet_mood, health_condition):
-        st.title("Animal Food Analyzer")
-
-        # Open and display the uploaded image
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_column_width=True)
-
-        # Simulate model interaction (Placeholder for actual model call)
-        model_response = f"""
-        Food in the image: <food>
-
-        Analysis: 
-        Can a {Age} year old, {Mood} {Breed} {Type} with {Health_Condition} eat it? 
-        <Model's analysis would be here.>
-        """
-
-        # Display the model's response
-        st.subheader("Analysis Result")
-        st.text(model_response)
-
-    # Streamlit sidebar inputs
-    animal_type = st.sidebar.selectbox("Animal Type", ["Dog", "Cat", "Bird", "Rabbit"])
-    age = st.sidebar.slider("Age", 0, 20, 2)
-    breed = st.sidebar.text_input("Breed", "Chihuahua")
-    mood = st.sidebar.selectbox("Mood", ["Happy", "Sad", "Energetic", "Calm"])
-    health_condition = st.sidebar.text_input("Health Condition", "None")
 
     # Streamlit app interface
     st.title("Animal Dietary Consultant")
     st.write("Enter your animal-related food or health question below:")
 
-    pet_type, pet_age, pet_breed, pet_mood, health_condition = petDetails()
-    foodRec(pet_type, pet_age, pet_breed, pet_mood, health_condition)
-    # File uploader for images
-    uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
-
-    if uploaded_file is None:
-        st.warning("Please upload an image to proceed.")
-        return
-    else:
-        food_analyzing(pet_type, pet_age, pet_breed, pet_mood, health_condition)
-    
-    
+    foodRec()
     # Input from the user
     user_input = st.text_input("Ask your question about the animal:")
 
@@ -145,8 +127,3 @@ def show_feature():
                 st.write(result)
         else:
             st.warning("Please enter a valid question.")
-
-    
-    
-    
-    
