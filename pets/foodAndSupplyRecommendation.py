@@ -121,7 +121,7 @@ def show_feature():
 
     pet_type, pet_age, pet_breed, pet_mood, health_condition = petDetails()
     foodRec(pet_type, pet_age, pet_breed, pet_mood, health_condition)
-    foodAnalyzer()
+    foodAnalyzer(pet_type, pet_age, pet_breed, pet_mood, health_condition)
 
 
     
