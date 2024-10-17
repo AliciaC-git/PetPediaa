@@ -1,8 +1,10 @@
 import streamlit as st
 import os
 import google.generativeai as genai
+import numpy as np
+import PIL.Image
 from openai import OpenAI
-from PIL import Image
+
 
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
@@ -89,55 +91,35 @@ def show_feature():
             else:
                 st.error("Please fill in all the required fields!")
 
+    
     def foodAnalyzer(pet_type, pet_age, pet_breed, pet_mood, health_condition):
         # File uploader for images
         uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
 
-        if uploaded_file is None:
-            st.warning("Please upload an image to proceed.")
-            return
+        if uploaded_file is not None:
+            image = np.array(PIL.Image.open(uploaded_file))
+            st.image(image, caption="Uploaded Image")
 
-        # Open and display the uploaded image
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_column_width=True)
+            if st.button("Analyze Food"):
+                model = genai.GenerativeModel(
+                    "gemini-1.5-flash",
+                    system_instruction="""
+                    You are an animal food analyzer.
+                    You will first analyze the food inside the uploaded image.
+                    Then analyze whether the specific animal can eat the food or not.
+                    You will list all the food in the image.
+                    You will only analyze food related image. Else, tell the user that "please upload only food images".
+                    The output will be in the format as shown below:
+                    Food in the image:
+                    <food>
 
-        model = genai.GenerativeModel(
-            "gemini-1.5-flash",
-            system_instruction="""
-            You are an animal food analyzer.
-            You will first analyze the food inside the uploaded image.
-            Then analyze whether the specific animal can eat the food or not.
-            You will list all the food in the image.
-            You will only analyze food related image. Else, tell the user that "please upload only food images".
-            The output will be in the format as shown below:
-            Food in the image:
-            <food>
-
-            Analysis:
-            <analysis of the edible and non-edible food>
-            """
-        )
-
-        image_content = uploaded_file.read()
-        # Process the image and display results when button is clicked
-        if uploaded_file:
-            image = Image.open(uploaded_file)
-            st.image(image, caption="Uploaded Image", use_column_width=True)
-
-            if st.button("Analyze"):
-                try:
-                    image_content = uploaded_file.read()  # Read the image once
-                    response = model.generate_content([
-                        f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.",
-                        image_content  # Use the binary content
-                        ])
-                    # Display the result correctly
-                    st.subheader("Analysis Result")
-                    st.write(response[0]['message']['content'])  # Access the response content
-
-                except Exception as e:
-                    st.error(f"An error occurred: {str(e)}")
-
+                    Analysis:
+                    <analysis of the edible and non-edible food>
+                    """
+                )
+                response = model.generate_content([f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.", image])
+                st.image(image)
+                st.write(response.text)
 
 
     # Streamlit app interface
