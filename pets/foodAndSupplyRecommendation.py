@@ -116,14 +116,16 @@ def show_feature():
     st.write("Enter your animal-related food or health question below:")
 
     foodRec()
-    # Input from the user
-    user_input = st.text_input("Ask your question about the animal:")
 
-    if st.button("Get Suggestion"):
-        if user_input:
-            with st.spinner("Fetching response..."):
-                result = foodSupplyRecBot(user_input)
-                st.success("Response received!")
-                st.write(result)
-        else:
-            st.warning("Please enter a valid question.")
+    
+    # # Input from the user
+    # user_input = st.text_input("Ask your question about the animal:")
+
+    # if st.button("Get Suggestion"):
+    #     if user_input:
+    #         with st.spinner("Fetching response..."):
+    #             result = foodSupplyRecBot(user_input)
+    #             st.success("Response received!")
+    #             st.write(result)
+    #     else:
+    #         st.warning("Please enter a valid question.")
