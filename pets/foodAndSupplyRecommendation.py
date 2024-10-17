@@ -2,7 +2,7 @@ import streamlit as st
 import os
 from openai import OpenAI
 
-client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
+client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
 def show_feature():
     st.subheader("Food and Supply Recommendations")
     def generate_food_recommendation(pet_type, pet_age, pet_breed, pet_mood, health_condition):
@@ -12,7 +12,7 @@ def show_feature():
         - Age: {pet_age}
         - Breed: {pet_breed}
         - Mood: {pet_mood}
-        - Health Condition: {health_condition}
+        - Health Conditions: {health_condition}
 
         Suggest appropriate food and supplies (exclude toys) for this pet:
         """
