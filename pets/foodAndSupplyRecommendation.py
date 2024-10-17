@@ -88,7 +88,7 @@ def show_feature():
             else:
                 st.error("Please fill in all the required fields!")
 
-    def foodAnalyzer(pet_type, pet_age, pet_breed, pet_mood,health_condition):
+    def foodAnalyzer(pet_type, pet_age, pet_breed, pet_mood, health_condition):
         # File uploader for images
         uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
 
@@ -105,7 +105,7 @@ def show_feature():
         Food in the image: <food>
 
         Analysis: 
-        Can a {Age} year old, {Mood} {Breed} {Type} with {Health_Condition} eat it? 
+        Can a {pet_age} year old, {pet_mood} {pet_breed} {pet_type} with {health_condition} eat it? 
         <Model's analysis would be here.>
         """
 
