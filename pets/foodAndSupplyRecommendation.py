@@ -129,7 +129,7 @@ def show_feature():
 
                 # Display the response
                 st.subheader("Analysis Result")
-                st.text(response)
+                st.write(response.text)
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
