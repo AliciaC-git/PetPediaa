@@ -91,6 +91,33 @@ def show_feature():
         )
         return response.choices[0].message.content
 
+    def food_analyzing(pet_type, pet_age, pet_breed, pet_mood, health_condition):
+        st.title("Animal Food Analyzer")
+
+        # Open and display the uploaded image
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Image", use_column_width=True)
+
+        # Simulate model interaction (Placeholder for actual model call)
+        model_response = f"""
+        Food in the image: <food>
+
+        Analysis: 
+        Can a {Age} year old, {Mood} {Breed} {Type} with {Health_Condition} eat it? 
+        <Model's analysis would be here.>
+        """
+
+        # Display the model's response
+        st.subheader("Analysis Result")
+        st.text(model_response)
+
+    # Streamlit sidebar inputs
+    animal_type = st.sidebar.selectbox("Animal Type", ["Dog", "Cat", "Bird", "Rabbit"])
+    age = st.sidebar.slider("Age", 0, 20, 2)
+    breed = st.sidebar.text_input("Breed", "Chihuahua")
+    mood = st.sidebar.selectbox("Mood", ["Happy", "Sad", "Energetic", "Calm"])
+    health_condition = st.sidebar.text_input("Health Condition", "None")
+
     # Streamlit app interface
     st.title("Animal Dietary Consultant")
     st.write("Enter your animal-related food or health question below:")
@@ -105,6 +132,8 @@ def show_feature():
         return
     else:
         food_analyzing(pet_type, pet_age, pet_breed, pet_mood, health_condition)
+    
+    
     # Input from the user
     user_input = st.text_input("Ask your question about the animal:")
 
@@ -117,32 +146,7 @@ def show_feature():
         else:
             st.warning("Please enter a valid question.")
 
-    def food_analyzing(pet_type, pet_age, pet_breed, pet_mood, health_condition):
-        st.title("Animal Food Analyzer")
     
-        # Open and display the uploaded image
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_column_width=True)
-    
-        # Simulate model interaction (Placeholder for actual model call)
-        model_response = f"""
-        Food in the image: <food>
-    
-        Analysis: 
-        Can a {Age} year old, {Mood} {Breed} {Type} with {Health_Condition} eat it? 
-        <Model's analysis would be here.>
-        """
-    
-        # Display the model's response
-        st.subheader("Analysis Result")
-        st.text(model_response)
-    
-    # Streamlit sidebar inputs
-    animal_type = st.sidebar.selectbox("Animal Type", ["Dog", "Cat", "Bird", "Rabbit"])
-    age = st.sidebar.slider("Age", 0, 20, 2)
-    breed = st.sidebar.text_input("Breed", "Chihuahua")
-    mood = st.sidebar.selectbox("Mood", ["Happy", "Sad", "Energetic", "Calm"])
-    health_condition = st.sidebar.text_input("Health Condition", "None")
     
     
     
