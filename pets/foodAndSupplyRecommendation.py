@@ -9,6 +9,39 @@ def show_feature():
 
     st.subheader("Food and Supply Recommendations")
 
+    def petDetails():
+        # Collect user input for pet type
+        pet_type = st.selectbox("Select Pet Type",
+                                options=["Dog", "Cat", "Bird", "Other"])
+        if pet_type == "Other":
+            pet_type = st.text_input("Please specify the pet type")
+
+        # Collect user input for pet age
+        pet_age = st.number_input("Enter Pet Age (in years)",
+                                  min_value=0,
+                                  max_value=50,
+                                  value=1,
+                                  step=1)
+
+        # Collect user input for pet breed
+        pet_breed = st.text_input("Enter Pet Breed")
+
+        # Collect user input for pet mood
+        pet_mood = st.selectbox("Select Pet Mood",
+                                options=[
+                                    "Happy", "Anxious", "Aggressive", "Calm",
+                                    "Neutral", "Other"
+                                ])
+        if pet_mood == "Other":
+            pet_mood = st.text_input("Please specify the pet mood")
+
+        # Collect user input for health condition
+        health_condition = st.text_area("Describe any Health Conditions",
+                                        value="None")
+
+        return pet_type, pet_age, pet_breed, pet_mood, health_condition
+        
+
     def generate_food_recommendation(pet_type, pet_age, pet_breed, pet_mood,
                                      health_condition):
         system_prompt = f"""
@@ -43,39 +76,7 @@ def show_feature():
 
         return response.choices[0].message.content
 
-    def foodRec():
-        st.title("Pet Care Assistant")
-
-        # Collect user input for pet type
-        pet_type = st.selectbox("Select Pet Type",
-                                options=["Dog", "Cat", "Bird", "Other"])
-        if pet_type == "Other":
-            pet_type = st.text_input("Please specify the pet type")
-
-        # Collect user input for pet age
-        pet_age = st.number_input("Enter Pet Age (in years)",
-                                  min_value=0,
-                                  max_value=50,
-                                  value=1,
-                                  step=1)
-
-        # Collect user input for pet breed
-        pet_breed = st.text_input("Enter Pet Breed")
-
-        # Collect user input for pet mood
-        pet_mood = st.selectbox("Select Pet Mood",
-                                options=[
-                                    "Happy", "Anxious", "Aggressive", "Calm",
-                                    "Neutral", "Other"
-                                ])
-        if pet_mood == "Other":
-            pet_mood = st.text_input("Please specify the pet mood")
-
-        # Collect user input for health condition
-        health_condition = st.text_area("Describe any Health Conditions",
-                                        value="None")
-
-
+    def foodRec(pet_type, pet_age, pet_breed, pet_mood,health_condition):
         # Button to trigger recommendation
         if st.button("Generate Food Recommendation"):
             if pet_type and pet_breed and pet_age and pet_mood:
@@ -86,36 +87,42 @@ def show_feature():
             else:
                 st.error("Please fill in all the required fields!")
 
-    def foodSupplyRecBot(animal):
-        foodSupply_prompt = """
-        You are an animal or insects consultant.
-        Based on the animal or species provided by the user, 
-        suggest suitable food for the animal.
-
-        - If the user asks for food suggestions, provide suggestions.
-        - If the user asks whether the animal can eat specific food, answer the question with details.
-        - Only answer questions related to animal food, diet, or health.
-        """
-
-        response = openai.chat.completions.create(model='gpt-4-turbo',
-                                                  messages=[{
-                                                      'role':
-                                                      'system',
-                                                      'content':
-                                                      foodSupply_prompt
-                                                  }, {
-                                                      'role': 'user',
-                                                      'content': animal
-                                                  }],
-                                                  temperature=0.9,
-                                                  max_tokens=1000)
-        return response.choices[0].message.content
 
     # Streamlit app interface
     st.title("Animal Dietary Consultant")
     st.write("Enter your animal-related food or health question below:")
+    st.title("Pet Care Assistant")
 
-    foodRec()
+    pet_type, pet_age, pet_breed, pet_mood, health_condition = petDetails()
+    foodRec(pet_type, pet_age, pet_breed, pet_mood, health_condition)
+
+
+    
+    # def foodSupplyRecBot(animal):
+    #     foodSupply_prompt = """
+    #     You are an animal or insects consultant.
+    #     Based on the animal or species provided by the user, 
+    #     suggest suitable food for the animal.
+
+    #     - If the user asks for food suggestions, provide suggestions.
+    #     - If the user asks whether the animal can eat specific food, answer the question with details.
+    #     - Only answer questions related to animal food, diet, or health.
+    #     """
+
+    #     response = openai.chat.completions.create(model='gpt-4-turbo',
+    #                                               messages=[{
+    #                                                   'role':
+    #                                                   'system',
+    #                                                   'content':
+    #                                                   foodSupply_prompt
+    #                                               }, {
+    #                                                   'role': 'user',
+    #                                                   'content': animal
+    #                                               }],
+    #                                               temperature=0.9,
+    #                                               max_tokens=1000)
+    #     return response.choices[0].message.content
+
 
     
     # # Input from the user
