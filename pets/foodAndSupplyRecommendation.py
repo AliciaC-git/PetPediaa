@@ -100,14 +100,20 @@ def show_feature():
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
-        # Simulate model interaction (Placeholder for actual model call)
-        model_response = f"""
-        Food in the image: <food>
+        # Simulate model interaction 
+        model_response = """
+          You are an animal food analyzer.
+          You will first analyze the food inside the uploaded image.
+          Then analyze whether the specific animal can eat the food or not.
+          You will list all the food in the image.
+          You will only analyze food related image. Else, tell the user that "please upload only food images".
+          The output will be in the format as shown below:
+          Food in the image:
+          <food>
 
-        Analysis: 
-        Can a {pet_age} year old, {pet_mood} {pet_breed} {pet_type} with {health_condition} eat it? 
-        <Model's analysis would be here.>
-        """
+          Analysis:
+          <analysis of the can and cannot eat>
+          """
 
         #Display the model's response
         st.subheader("Analysis Result")
