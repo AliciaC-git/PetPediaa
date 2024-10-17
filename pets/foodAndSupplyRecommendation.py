@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from openai import OpenAI
+from PIL import Image
 
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
 def show_feature():
@@ -102,3 +103,40 @@ def show_feature():
                 st.write(result)
         else:
             st.warning("Please enter a valid question.")
+
+    def food_analyzing(Type, Age, Breed, Mood, Health_Condition):
+        st.title("Animal Food Analyzer")
+    
+        # File uploader for images
+        uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
+    
+        if uploaded_file is None:
+            st.warning("Please upload an image to proceed.")
+            return
+    
+        # Open and display the uploaded image
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Image", use_column_width=True)
+    
+        # Simulate model interaction (Placeholder for actual model call)
+        model_response = f"""
+        Food in the image: <food>
+    
+        Analysis: 
+        Can a {Age} year old, {Mood} {Breed} {Type} with {Health_Condition} eat it? 
+        <Model's analysis would be here.>
+        """
+    
+        # Display the model's response
+        st.subheader("Analysis Result")
+        st.text(model_response)
+    
+    # Streamlit sidebar inputs
+    animal_type = st.sidebar.selectbox("Animal Type", ["Dog", "Cat", "Bird", "Rabbit"])
+    age = st.sidebar.slider("Age", 0, 20, 2)
+    breed = st.sidebar.text_input("Breed", "Chihuahua")
+    mood = st.sidebar.selectbox("Mood", ["Happy", "Sad", "Energetic", "Calm"])
+    health_condition = st.sidebar.text_input("Health Condition", "None")
+    
+    
+    
