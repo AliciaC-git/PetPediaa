@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from openai import OpenAI
+from PIL import Image
 
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
 
@@ -88,29 +89,29 @@ def show_feature():
                 st.error("Please fill in all the required fields!")
 
     def foodAnalyzer(pet_type, pet_age, pet_breed, pet_mood,health_condition):
-                # File uploader for images
-                uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
+        # File uploader for images
+        uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
 
-                if uploaded_file is None:
-                    st.warning("Please upload an image to proceed.")
-                    return
+        if uploaded_file is None:
+            st.warning("Please upload an image to proceed.")
+            return
 
-                # Open and display the uploaded image
-                image = Image.open(uploaded_file)
-                st.image(image, caption="Uploaded Image", use_column_width=True)
+        # Open and display the uploaded image
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Image", use_column_width=True)
 
-                # Simulate model interaction (Placeholder for actual model call)
-                model_response = f"""
-                Food in the image: <food>
+        # Simulate model interaction (Placeholder for actual model call)
+        model_response = f"""
+        Food in the image: <food>
 
-                Analysis: 
-                Can a {Age} year old, {Mood} {Breed} {Type} with {Health_Condition} eat it? 
-                <Model's analysis would be here.>
-                """
+        Analysis: 
+        Can a {Age} year old, {Mood} {Breed} {Type} with {Health_Condition} eat it? 
+        <Model's analysis would be here.>
+        """
 
-                # Display the model's response
-                st.subheader("Analysis Result")
-                st.text(model_response)
+        #Display the model's response
+        st.subheader("Analysis Result")
+        st.text(model_response)
 
 
     # Streamlit app interface
