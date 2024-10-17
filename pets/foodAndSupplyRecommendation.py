@@ -134,17 +134,17 @@ def show_feature():
         food_analyzing(pet_type, pet_age, pet_breed, pet_mood, health_condition)
     
     
-    # # Input from the user
-    # user_input = st.text_input("Ask your question about the animal:")
+    # Input from the user
+    user_input = st.text_input("Ask your question about the animal:")
 
-    # if st.button("Get Suggestion"):
-    #     if user_input:
-    #         with st.spinner("Fetching response..."):
-    #             result = foodSupplyRecBot(user_input)
-    #             st.success("Response received!")
-    #             st.write(result)
-    #     else:
-    #         st.warning("Please enter a valid question.")
+    if st.button("Get Suggestion"):
+        if user_input:
+            with st.spinner("Fetching response..."):
+                result = foodSupplyRecBot(user_input)
+                st.success("Response received!")
+                st.write(result)
+        else:
+            st.warning("Please enter a valid question.")
 
     
     
