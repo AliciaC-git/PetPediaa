@@ -5,7 +5,7 @@ from openai import OpenAI
 from PIL import Image
 
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
-
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 def show_feature():
 
