@@ -120,18 +120,14 @@ def show_feature():
 
         # Process the image and display results when button is clicked
         if uploaded_file and st.button("Analyze"):
-            try:
-                # Generate content using the AI model
-                response = model.generate_content([
-                    f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.",
-                    uploaded_file.read()
-                ])
+            # Generate content using the AI model
+            response = model.generate_content([
+                f"Identify whether a {pet_age} year old {pet_mood} {pet_breed} {pet_type} animal with {health_condition} historical cases can eat the food.", uploaded_file.read()
+            ])
 
-                # Display the response
-                st.subheader("Analysis Result")
-                st.write(response.text)
-            except Exception as e:
-                st.error(f"An error occurred: {e}")
+            # Display the response
+            st.subheader("Analysis Result")
+            st.write(response.text)
 
 
     # Streamlit app interface
