@@ -30,7 +30,6 @@ def show_feature():
         # Collect user input for pet breed
         pet_breed = st.text_input("Enter Pet Breed")
 
-    
 
         return pet_type, pet_age, pet_breed
 
@@ -94,7 +93,8 @@ def show_feature():
                     Then analyze whether the specific animal can eat the food or not.
                     You will list all the food in the image.
                     Provide detailed analysis for all edible and non-edible foods.
-                    Bold the 'Food in teh image', and 'Analysis'
+                    Bold the 'Food in teh image', and 'Analysis'.
+                    Give some related food advices.
                     You will only analyze food related image. Else, tell the user that "please upload only food images".
                     The output will be in the format as shown below:
                     Food in the image:
